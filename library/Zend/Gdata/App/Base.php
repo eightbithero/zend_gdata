@@ -24,7 +24,7 @@
 /**
  * @see Zend_Gdata_App_Util
  */
-require_once 'Zend/Gdata/App/Util.php';
+#require_once 'Zend/Gdata/App/Util.php';
 
 /**
  * Abstract class for all XML elements

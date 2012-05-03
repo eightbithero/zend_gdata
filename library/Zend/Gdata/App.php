@@ -589,7 +589,7 @@ class Zend_Gdata_App
     public function performHttpRequest($method, $url, $headers = null,
         $body = null, $contentType = null, $remainingRedirects = null)
     {
-        require_once 'Zend/Http/Client/Exception.php';
+        #require_once 'Zend/Http/Client/Exception.php';
         if ($remainingRedirects === null) {
             $remainingRedirects = self::getMaxRedirects();
         }
@@ -640,7 +640,7 @@ class Zend_Gdata_App
 
         // Set the params for the new request to be performed
         $this->_httpClient->setHeaders($headers);
-        require_once 'Zend/Uri/Http.php';
+        #require_once 'Zend/Uri/Http.php';
         $uri = Zend_Uri_Http::fromString($url);
         preg_match("/^(.*?)(\?.*)?$/", $url, $matches);
         $this->_httpClient->setUri($matches[1]);
@@ -662,10 +662,10 @@ class Zend_Gdata_App
             $oldHttpAdapter = $this->_httpClient->getAdapter();
 
             if ($oldHttpAdapter instanceof Zend_Http_Client_Adapter_Proxy) {
-                require_once 'Zend/Gdata/HttpAdapterStreamingProxy.php';
+                #require_once 'Zend/Gdata/HttpAdapterStreamingProxy.php';
                 $newAdapter = new Zend_Gdata_HttpAdapterStreamingProxy();
             } else {
-                require_once 'Zend/Gdata/HttpAdapterStreamingSocket.php';
+                #require_once 'Zend/Gdata/HttpAdapterStreamingSocket.php';
                 $newAdapter = new Zend_Gdata_HttpAdapterStreamingSocket();
             }
             $this->_httpClient->setAdapter($newAdapter);
@@ -684,7 +684,7 @@ class Zend_Gdata_App
             if ($usingMimeStream) {
                 $this->_httpClient->setAdapter($oldHttpAdapter);
             }
-            require_once 'Zend/Gdata/App/HttpException.php';
+            #require_once 'Zend/Gdata/App/HttpException.php';
             throw new Zend_Gdata_App_HttpException($e->getMessage(), $e);
         }
         if ($response->isRedirect() && $response->getStatus() != '304') {
@@ -694,13 +694,13 @@ class Zend_Gdata_App
                     $method, $newUrl, $headers, $body,
                     $contentType, $remainingRedirects);
             } else {
-                require_once 'Zend/Gdata/App/HttpException.php';
+                #require_once 'Zend/Gdata/App/HttpException.php';
                 throw new Zend_Gdata_App_HttpException(
                         'Number of redirects exceeds maximum', null, $response);
             }
         }
         if (!$response->isSuccessful()) {
-            require_once 'Zend/Gdata/App/HttpException.php';
+            #require_once 'Zend/Gdata/App/HttpException.php';
             $exceptionMessage = 'Expected response code 200, got ' .
                 $response->getStatus();
             if (self::getVerboseExceptionMessages()) {
@@ -1048,11 +1048,13 @@ class Zend_Gdata_App
                      // Autoloading disabled on next line for compatibility
                      // with magic factories. See ZF-6660.
                      if (!class_exists($name . '_' . $class, false)) {
-                        require_once 'Zend/Loader.php';
+                        #require_once 'Zend/Loader.php';
                         @Zend_Loader::loadClass($name . '_' . $class);
-                     }
-                     $foundClassName = $name . '_' . $class;
-                     break;
+						throw new Zend_Exception('Class doesn\'t exists');
+                     } else {
+                     	$foundClassName = $name . '_' . $class;
+                     	break;
+					 }
                  } catch (Zend_Exception $e) {
                      // package wasn't here- continue searching
                  }
@@ -1071,12 +1073,12 @@ class Zend_Gdata_App
                 }
                 return $instance;
             } else {
-                require_once 'Zend/Gdata/App/Exception.php';
+                #require_once 'Zend/Gdata/App/Exception.php';
                 throw new Zend_Gdata_App_Exception(
                         "Unable to find '${class}' in registered packages");
             }
         } else {
-            require_once 'Zend/Gdata/App/Exception.php';
+            #require_once 'Zend/Gdata/App/Exception.php';
             throw new Zend_Gdata_App_Exception("No such method ${method}");
         }
     }

@@ -2,6 +2,6 @@ autoload:
   # zend_gdata
   zend_gdata:
     name:           zend_gdata
-    path:           <?php echo realpath(dirname(__FILE__).'/../library')."\n" ?>
+    path:           <?php echo realpath(dirname(__FILE__).'/../library')."\n"; ?>
     recursive:      true
     exclude:        []

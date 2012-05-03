@@ -51,53 +51,53 @@ class Zend_Loader
      */
     public static function loadClass($class, $dirs = null)
     {
-        if (class_exists($class, false) || interface_exists($class, false)) {
-            return;
-        }
-
-        if ((null !== $dirs) && !is_string($dirs) && !is_array($dirs)) {
-            require_once 'Zend/Exception.php';
-            throw new Zend_Exception('Directory argument must be a string or an array');
-        }
-
-        // Autodiscover the path from the class name
-        // Implementation is PHP namespace-aware, and based on
-        // Framework Interop Group reference implementation:
-        // http://groups.google.com/group/php-standards/web/psr-0-final-proposal
-        $className = ltrim($class, '\\');
-        $file      = '';
-        $namespace = '';
-        if ($lastNsPos = strripos($className, '\\')) {
-            $namespace = substr($className, 0, $lastNsPos);
-            $className = substr($className, $lastNsPos + 1);
-            $file      = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
-        }
-        $file .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-
-        if (!empty($dirs)) {
-            // use the autodiscovered path
-            $dirPath = dirname($file);
-            if (is_string($dirs)) {
-                $dirs = explode(PATH_SEPARATOR, $dirs);
-            }
-            foreach ($dirs as $key => $dir) {
-                if ($dir == '.') {
-                    $dirs[$key] = $dirPath;
-                } else {
-                    $dir = rtrim($dir, '\\/');
-                    $dirs[$key] = $dir . DIRECTORY_SEPARATOR . $dirPath;
-                }
-            }
-            $file = basename($file);
-            self::loadFile($file, $dirs, true);
-        } else {
-            self::loadFile($file, null, true);
-        }
-
-        if (!class_exists($class, false) && !interface_exists($class, false)) {
-            require_once 'Zend/Exception.php';
-            throw new Zend_Exception("File \"$file\" does not exist or class \"$class\" was not found in the file");
-        }
+//        if (class_exists($class, false) || interface_exists($class, false)) {
+//            return;
+//        }
+//
+//        if ((null !== $dirs) && !is_string($dirs) && !is_array($dirs)) {
+//            require_once 'Zend/Exception.php';
+//            throw new Zend_Exception('Directory argument must be a string or an array');
+//        }
+//
+//        // Autodiscover the path from the class name
+//        // Implementation is PHP namespace-aware, and based on
+//        // Framework Interop Group reference implementation:
+//        // http://groups.google.com/group/php-standards/web/psr-0-final-proposal
+//        $className = ltrim($class, '\\');
+//        $file      = '';
+//        $namespace = '';
+//        if ($lastNsPos = strripos($className, '\\')) {
+//            $namespace = substr($className, 0, $lastNsPos);
+//            $className = substr($className, $lastNsPos + 1);
+//            $file      = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+//        }
+//        $file .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+//
+//        if (!empty($dirs)) {
+//            // use the autodiscovered path
+//            $dirPath = dirname($file);
+//            if (is_string($dirs)) {
+//                $dirs = explode(PATH_SEPARATOR, $dirs);
+//            }
+//            foreach ($dirs as $key => $dir) {
+//                if ($dir == '.') {
+//                    $dirs[$key] = $dirPath;
+//                } else {
+//                    $dir = rtrim($dir, '\\/');
+//                    $dirs[$key] = $dir . DIRECTORY_SEPARATOR . $dirPath;
+//                }
+//            }
+//            $file = basename($file);
+//            self::loadFile($file, $dirs, true);
+//        } else {
+//            self::loadFile($file, null, true);
+//        }
+//
+//        if (!class_exists($class, false) && !interface_exists($class, false)) {
+//            require_once 'Zend/Exception.php';
+//            throw new Zend_Exception("File \"$file\" does not exist or class \"$class\" was not found in the file");
+//        }
     }
 
     /**
